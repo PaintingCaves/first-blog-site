@@ -53,7 +53,12 @@
     <div class="container content-area">
 
     </div>
-    <div class="row">
+    <div class=" container">
+        <div class="row">
+            <div class="col-3"></div>
+            <div class="col-6 comment-area"></div>
+            <div class col-3></div>
+        </div>
     </div>
 
 
@@ -88,10 +93,21 @@
     <div class="col-3"></div>
   </div>
 </script>
+<script id="comment-template" type="text/x-handlebars-template">
+<div class="row">
+    <h2>{{username}}</h2>
+    </div>
+    <div class="row">
+    <p>{{commentContent}}</p>
+</div>
+</script>
+
 <script>
       $(document).ready(function () {
     var source = document.getElementById("content-template").innerHTML;
     var template = Handlebars.compile(source);
+    var commentSource = document.getElementById("comment-template").innerHTML;
+    var commentTemplate = Handlebars.compile(commentSource);
     let url = new URL(window.location.href);
     let searchParams = new URLSearchParams(url.search);//creating content template
     let id = (searchParams.get('id'));
@@ -110,6 +126,7 @@
         event.preventDefault();
         let commentContent = $('.comment').val();
         let username = $('.username').val();
+        // let id = parseInt(id);
         console.log(commentContent);
           $.ajax({//pushing comment to db
             url: 'http://localhost:3000/comments',
@@ -124,6 +141,17 @@
         });
 
     });
+    $.getJSON('http://localhost:3000/comments?postId=' + id, function(comments){
+        for (comment of comments){
+            let username = comment.username;
+            let commentContent = comment.body;
+            let commentContext = {username:username, commentContent:commentContent};
+            let commentHTML = commentTemplate(commentContext);
+            $('.comment-area').append(commentHTML);
+        
+        
+        }
+    })
 });
 
 </script>
