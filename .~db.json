@@ -1,7 +1,7 @@
 {
   "posts": [
     {
-      "title": "A blog post",
+      "title": "An edited blog post",
       "content": "<p>A bloggy</p>",
       "imageurl": "https://i.imgur.com/IUxU35q.jpg",
       "id": 1

@@ -50,6 +50,9 @@
     <div class="container content-area">
 
     </div>
+    <div class="row">
+        <button></button>
+    </div>
 
 
 
@@ -66,6 +69,7 @@
     <div class="body">
       {{{body}}}
     </div>
+    <a href="edit.html?id={{postID}}"><p>Edit Post</p></a>
     </div>
     <div class="col-3"></div>
   </div>
@@ -82,7 +86,8 @@
         let postTitle = post.title;
         let postContent = post.content;
         let image = post.imageurl;
-        var context = { title: postTitle, body: postContent, image: image};
+        let postID = post.id;
+        var context = { title: postTitle, body: postContent, image: image, postID:postID};
         var html = template(context);
         console.log(html);
         
