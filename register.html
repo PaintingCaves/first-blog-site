@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="assets\bootstrap-4.0.0-dist\css\bootstrap.min.css">
+    <link rel="stylesheet" href="assets\css\styles.css">
+
+  </head>
+  <body>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="index.html">Abbreviation Addiction</a>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item active">
+                <!-- Login form -->
+                <form class="loginForm">
+                  <div class="row">
+                    <div class="col">
+                      <input type="text" class="form-control" name="loginName" placeholder="Username">
+                    </div>
+                    <div class="col">
+                      <input type="password" class="form-control" name="loginPassword" placeholder="Password">
+                    </div>
+                    <button type="submit" id="loginButton" class="btn btn-primary mb-2">Login</button>
+                    </div>
+                  </div>
+                </form>
+              </li>
+              <li class="nav-item active no-bullet">
+                <div class="col ml-3">
+                  <a href="register.html"><p>Register</p></a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      <div class="row">
+        <div class="col-3">
+
+        </div>
+        <div class="col-6">
+          <!-- registration form -->
+          <form class="signup-form" method="post" action="http://localhost:3000/users">
+            <div class="row">
+                <input type="text" class="form-control" name="username" placeholder="Username">
+            </div class="row">
+            <div class="row">
+                <input type="text" class="form-control" name="firstName" placeholder="First Name" required>
+            </div>
+            <div class="row">
+                <input type="text" class="form-control" name="lastName" placeholder="Last Name" required>
+            </div>
+            <div class="row">
+                <input type="email" class="form-control" name="emailAddress" value="" placeholder="example@email.com" required>
+            </div>
+            <div class="row">
+              <input type="password" class="form-control" name="password" value="" placeholder="Password" required>
+            </div>
+            <div class="row">
+              <input type="password" class="form-control" name="confirmPassword" value="" placeholder="Confirm Password" required>
+            </div>
+            <div class="row">
+              <button type="submit"  class="btn btn-primary mb-2">Register</button>
+            </div>
+          </form>
+          <div class="row">
+            <div class="notice">
+
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-3">
+
+        </div>
+
+      </div>
+
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript">
+  $(document).ready(function(){//jquery start
+
+$('form.loginForm').submit(function(event){//login system
+  event.preventDefault();
+  let username = $('input[name="loginName"]').val();//getting the input username and password
+  let password = $('input[name="loginPassword"]').val();
+  //get the user
+  $.getJSON('http://localhost:3000/users?username=' + username +'', function(data){
+    if (data.length>0){
+      let found_user_password = data[0].password;
+      if (found_user_password==password){//password validation
+        alert("Login successful");
+      }else{
+        alert("Incorrect Password");
+      }
+    }else{//for no user
+      alert("User not found");
+    }
+  })
+});
+$('form.signup-form').submit(function(event){
+  event.preventDefault();
+  let username = $('input[name="username"]').val();
+  let first_name = $('input[name="firstName"]').val();
+  let last_name = $('input[name="lastName"]').val();
+  let email_address = $('input[name="emailAddress"]').val();
+  let password = $('input[name="password"]').val();
+
+  if(first_name.length == 0){
+    alert('need name');
+    return false;
+  }
+
+  //fetch data in signup-form
+  //send data to database
+  //if successful register message to user
+  //if fail try again message
+
+  $.ajax({
+    url: 'http://localhost:3000/users',
+    method: 'post',
+    data: {
+      "username": username,
+      "firstName": first_name,
+      "lastName": last_name,
+      "emailAddress": email_address,
+      "password": password
+    }
+  }).done(function(saved_user){
+    alert('Data saved' + saved_user.id)
+    $('.notice').html('New user created: ' + saved_user.id).show();
+  });
+});
+
+
+});
+
+  </script>
+</html>

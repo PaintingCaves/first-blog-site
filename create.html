@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="assets\bootstrap-4.0.0-dist\css\bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="assets\bootstrap-4.0.0-dist\js\bootstrap.min.js"></script>
+    <link href="assets\summernote-0.8.9-dist\dist\summernote-bs4.css" rel="stylesheet">
+    <script src="assets\summernote-0.8.9-dist\dist\summernote-bs4.js"></script>
+    <link rel="stylesheet" href="assets\css\styles.css">
+    <title>Create a post</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Abbreviation Addiction</a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <!-- Login form -->
+              <form>
+                <div class="row">
+                  <div class="col">
+                    <input type="text" class="form-control" name="username" placeholder="Username">
+                  </div>
+                  <div class="col">
+                    <input type="password" class="form-control" name="password" placeholder="Password">
+                  </div>
+                  <button type="submit" id="loginButton" class="btn btn-primary mb-2">Login</button>
+                  </div>
+                </div>
+              </form>
+            </li>
+            <li class="nav-item active no-bullet">
+              <div class="col ml-3">
+                <a href="register.html"><p>Register</p></a>
+              </div>
+            </li>
+          </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+          <div class="row">
+          <div class="mx-auto">
+          <h1>Make a new post!</h1>
+        </div>
+      </div>
+      <div class="row">
+        <p>Title Here</p>
+        <input type="text" class="title"></input>
+        </div>
+        <div class="row">
+        <p>Post Content here</p>
+        <input class="summernote"></input>
+        </div>
+        <div class="row">
+          <p>link image</p>
+          <input type="link" class="image" name="" value="">
+        </div>
+        <div class="row">
+          <button type="submit" id="submitPost" class="btn btn-primary mb-2">Submit</button>
+        </div>
+        </div>
+        </div>
+      </div>
+        <div class="col-3"></div>
+
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript">
+  $(document).ready(function() {
+    $('.summernote').summernote({
+      height: 100,                 // set editor height
+      minHeight: null,             // set minimum height of editor
+      maxHeight: null,             // set maximum height of editor
+      focus: true                  // set focus to editable area after initializing summernote
+    });
+  });
+
+  $("#submitPost").on("click",function(){
+    // let postTitle = $('.summernote').eq(0).summernote('code');
+    let postContent = $('.summernote').summernote('code');//get post stuff
+    let image = $('.image').val();
+    let postTitle = $('.title').val();
+
+    $.ajax({//pushing post to db
+      url: 'http://localhost:3000/posts',
+      method: 'post',
+      data: {
+        "title": postTitle,
+        "content": postContent,
+        "imageurl": image
+
+      }
+    }).done(function(saved_post){
+      alert('post created' + saved_post.id)
+    });
+
+  });
+  </script>
+
+
+</html>

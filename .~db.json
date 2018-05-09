@@ -1,0 +1,60 @@
+{
+  "posts": [
+    {
+      "title": "A blog post",
+      "content": "<p>A bloggy</p>",
+      "imageurl": "https://i.imgur.com/IUxU35q.jpg",
+      "id": 1
+    },
+    {
+      "title": "a title",
+      "content": "<p>a post</p>",
+      "imageurl": "https://static.boredpanda.com/blog/wp-content/uploads/2016/02/japanese-grumpy-cat-angry-koyuki-moflicious-22.jpg",
+      "id": 2
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "users": [
+    {
+      "username": "green",
+      "firstName": "yellow",
+      "lastName": "ss",
+      "emailAddress": "qqq@gmail.com",
+      "password": "asdsaa",
+      "id": 1
+    },
+    {
+      "username": "bobb",
+      "firstName": "bb",
+      "lastName": "bb",
+      "emailAddress": "bb@cc.com",
+      "password": "asdasd",
+      "id": 2
+    },
+    {
+      "username": "sdaas",
+      "firstName": "asdas",
+      "lastName": "asdas",
+      "emailAddress": "adasda@adqa.com",
+      "password": "ada",
+      "id": 3
+    },
+    {
+      "username": "JumpingJack",
+      "firstName": "Clint",
+      "lastName": "Cloete",
+      "emailAddress": "clint@clint.com",
+      "password": "bob",
+      "id": 4
+    }
+  ]
+}

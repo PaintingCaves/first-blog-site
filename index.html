@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Blog Home!</title>
+    <link rel="stylesheet" href="assets\bootstrap-4.0.0-dist\css\bootstrap.min.css">
+    <link rel="stylesheet" href="assets\css\styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" href="#">Abbreviation Addiction</a>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a href="create.html"><p>Create</p></a>
+            </li>
+            <li class="nav-item active">
+              <!-- Login form -->
+              <form>
+                <div class="row">
+                  <div class="col">
+                    <input type="text" class="form-control" name="username" placeholder="Username">
+                  </div>
+                  <div class="col">
+                    <input type="password" class="form-control" name="password" placeholder="Password">
+                  </div>
+                  <button type="submit" id="loginButton" class="btn btn-primary mb-2">Login</button>
+                  </div>
+                </div>
+              </form>
+            </li>
+            <li class="nav-item active no-bullet">
+              <div class="col ml-3">
+                <a href="register.html"><p>Register</p></a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container content-area">
+
+    </div>
+
+
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
+<script id="snippet-template" type="text/x-handlebars-template">
+  <div class="snippet row">
+    <div class="col-3"></div>
+    <div class="col-6">
+    <a href="content.html?id={{postID}}"><h1>{{title}}</h1></a>
+    <div class="image" style="height:250px;">
+      <img src="{{image}}" class="img-fluid" style="max-width: 100%;max-height: 100%">
+    </div>
+    <div class="body">
+      {{{body}}}
+    </div>
+    </div>
+    <div class="col-3"></div>
+  </div>
+</script>
+<script type="text/javascript">
+    var source = document.getElementById("snippet-template").innerHTML;
+    var template = Handlebars.compile(source);
+  $.getJSON('http://localhost:3000/posts', function(posts){
+    for (post of posts){
+      let postTitle = post.title;
+      let postContent = post.content;
+      let image = post.imageurl;
+      let postID = post.id;
+      console.log(image);
+      var context = {title:postTitle, body:postContent, image:image, postID:postID};
+      var html = template(context);
+      console.log(html);
+      $('.content-area').append(html);
+    }
+  })
+
+  
+</script>
+</html>
