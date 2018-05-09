@@ -3,11 +3,14 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Blog Home!</title>
     <link rel="stylesheet" href="assets\bootstrap-4.0.0-dist\css\bootstrap.min.css">
-    <link rel="stylesheet" href="assets\css\styles.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="assets\bootstrap-4.0.0-dist\js\bootstrap.min.js"></script>
+    <link href="assets\summernote-0.8.9-dist\dist\summernote-bs4.css" rel="stylesheet">
+    <script src="assets\summernote-0.8.9-dist\dist\summernote-bs4.js"></script>
+    <link rel="stylesheet" href="assets\css\styles.css">
+    <title>Look at a post</title>
 </head>
 
 <body>
@@ -51,7 +54,6 @@
 
     </div>
     <div class="row">
-        <button></button>
     </div>
 
 
@@ -68,30 +70,61 @@
     </div>
     <div class="body">
       {{{body}}}
-    </div>
+    </div class="row">
+    <div class="">
     <a href="edit.html?id={{postID}}"><p>Edit Post</p></a>
+    </div>
+    <form class="commentForm" method="post" action="http://localhost:3000/comments">
+        <div class="row">
+            <input type="text" class="username" name="username" placeholder="Username" required>
+        </div class="row">
+        <div class="row">
+            <textarea type="text" class="w-100 comment" name="comment" placeholder="comment"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary commentButton">Submit Comment</button>
+    </form>
     </div>
     <div class="col-3"></div>
   </div>
 </script>
 <script>
-
+      $(document).ready(function () {
     var source = document.getElementById("content-template").innerHTML;
     var template = Handlebars.compile(source);
     let url = new URL(window.location.href);
-    let searchParams = new URLSearchParams(url.search);
+    let searchParams = new URLSearchParams(url.search);//creating content template
     let id = (searchParams.get('id'));
     console.log(id);
-    $.getJSON('http://localhost:3000/posts/'+ id, function(post){
+    $.getJSON('http://localhost:3000/posts/'+ id, function(post){//Getting the content
         let postTitle = post.title;
         let postContent = post.content;
         let image = post.imageurl;
         let postID = post.id;
         var context = { title: postTitle, body: postContent, image: image, postID:postID};
         var html = template(context);
-        console.log(html);
         
         $('.content-area').append(html);
     })   
+    $('body').on('submit','form.commentForm',function(event){//submitting a comment
+        event.preventDefault();
+        let commentContent = $('.comment').val();
+        let username = $('.username').val();
+        console.log(commentContent);
+          $.ajax({//pushing comment to db
+            url: 'http://localhost:3000/comments',
+            method: 'post',
+            data: {
+                "body": commentContent,
+                "username": username,
+                "postId": id,
+            }
+        }).done(function (saved_post) {
+            alert('comment created' + saved_post.id)
+        });
+
+    });
+});
+
 </script>
 </html>

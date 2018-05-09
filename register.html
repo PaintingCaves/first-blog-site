@@ -133,7 +133,6 @@ $('form.signup-form').submit(function(event){
     }
   }).done(function(saved_user){
     alert('Data saved' + saved_user.id)
-    $('.notice').html('New user created: ' + saved_user.id).show();
   });
 });
 
